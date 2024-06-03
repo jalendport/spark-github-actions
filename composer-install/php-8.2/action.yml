@@ -1,0 +1,5 @@
+name: 'Composer Install (PHP 8.2)'
+description: 'Installs Composer dependencies in a Docker container'
+runs:
+  using: 'docker'
+  image: './Dockerfile'

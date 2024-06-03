@@ -1,0 +1,5 @@
+name: 'npm Install (Node 22)'
+description: 'Installs node dependencies in a Docker container'
+runs:
+  using: 'docker'
+  image: './Dockerfile'
