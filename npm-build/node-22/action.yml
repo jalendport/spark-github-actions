@@ -1,0 +1,5 @@
+name: 'npm Build (Node 22)'
+description: 'Builds frontend assets in a Docker container'
+runs:
+  using: 'docker'
+  image: './Dockerfile'
