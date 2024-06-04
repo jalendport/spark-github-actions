@@ -4,7 +4,7 @@ inputs:
   path:
     description: "The path to the files to be rsynced"
     required: false
-    default: ${{ github.workspace }}
+    default: ${{ github.workspace }}/
   flags:
     description: "The flags to be used with rsync"
     required: false
