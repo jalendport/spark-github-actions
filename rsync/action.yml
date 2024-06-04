@@ -8,7 +8,10 @@ inputs:
   flags:
     description: "The flags to be used with rsync"
     required: false
-    default: "-avz --no-o --no-g"
+    default: "-avz --no-o --no-g --delete"
+  excludes:
+    description: "The files and directories to be excluded"
+    required: false
   ssh-config:
     description: "The SSH config to be used"
     required: true
@@ -18,12 +21,24 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Convert excludes to rsync format
+      id: convert-excludes
+      run: |
+        EXCLUDES=""
+        if [ -n "$INPUT" ]; then
+          EXCLUDES=$(echo $INPUT | sed -n 's/^/--exclude /p' | tr '\n' ' ')
+        fi
+        echo "excludes=$EXCLUDES" >> "$GITHUB_OUTPUT"
+      shell: bash
+      env:
+        INPUT: ${{ inputs.excludes }}
     - name: rsync
       run: |
-        rsync $FLAGS $LOCAL_PATH $SSH_CONFIG:$SSH_PATH
+        rsync $FLAGS $EXCLUDES $LOCAL_PATH $SSH_CONFIG:$SSH_PATH
       shell: bash
       env:
         LOCAL_PATH: ${{ inputs.path }}
         FLAGS: ${{ inputs.flags }}
+        EXCLUDES: ${{ steps.convert-excludes.outputs.excludes }}
         SSH_CONFIG: ${{ inputs.ssh-config }}
         SSH_PATH: ${{ inputs.ssh-path }}
