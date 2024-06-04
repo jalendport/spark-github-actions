@@ -33,6 +33,7 @@ runs:
           StrictHostKeyChecking no
         END
         cat ~/.ssh/config
+      shell: bash
       env:
         ENVIRONMENT: ${{ inputs.environment }}
         SSH_HOST: ${{ inputs.ssh-host }}
