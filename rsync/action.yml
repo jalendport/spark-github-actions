@@ -1,0 +1,29 @@
+name: "rsync"
+description: "rsync files to a remote server"
+inputs:
+  path:
+    description: "The path to the files to be rsynced"
+    required: false
+    default: ${{ github.workspace }}
+  flags:
+    description: "The flags to be used with rsync"
+    required: false
+    default: "-avz --no-o --no-g"
+  ssh-config:
+    description: "The SSH config to be used"
+    required: true
+  ssh-path:
+    description: "The path on the remote server to be used"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: rsync
+      run: |
+        rsync $FLAGS $LOCAL_PATH $SSH_CONFIG:$SSH_PATH
+      shell: bash
+      env:
+        LOCAL_PATH: ${{ inputs.path }}
+        FLAGS: ${{ inputs.flags }}
+        SSH_CONFIG: ${{ inputs.ssh-config }}
+        SSH_PATH: ${{ inputs.ssh-path }}

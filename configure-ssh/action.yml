@@ -6,17 +6,17 @@ inputs:
     required: false
     default: "production"
   ssh-host:
-    description: "The SSH host"
+    description: "The SSH host to be used"
     required: true
   ssh-user:
-    description: "The SSH user"
+    description: "The SSH user to be used"
     required: true
   ssh-key:
-    description: "The SSH key"
+    description: "The SSH key to be used"
     required: true
 outputs:
-  environment:
-    description: "The environment configured"
+  ssh-config:
+    description: "The SSH configuration"
     value: ${{ inputs.environment }}
 runs:
   using: "composite"
@@ -24,13 +24,13 @@ runs:
     - name: Configure SSH
       run: |
         mkdir -p ~/.ssh/
-        echo "$SSH_KEY" > ~/.ssh/${ENVIRONMENT}.key
-        chmod 600 ~/.ssh/${ENVIRONMENT}.key
+        echo "$SSH_KEY" > ~/.ssh/$ENVIRONMENT.key
+        chmod 600 ~/.ssh/$ENVIRONMENT.key
         cat >>~/.ssh/config <<END
         Host $ENVIRONMENT
           HostName $SSH_HOST
           User $SSH_USER
-          IdentityFile ~/.ssh/${ENVIRONMENT}.key
+          IdentityFile ~/.ssh/$ENVIRONMENT.key
           StrictHostKeyChecking no
         END
       shell: bash
