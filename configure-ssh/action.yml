@@ -33,8 +33,6 @@ runs:
           IdentityFile ~/.ssh/${ENVIRONMENT}.key
           StrictHostKeyChecking no
         END
-        ls ~/.ssh
-        cat ~/.ssh/config
       shell: bash
       env:
         ENVIRONMENT: ${{ inputs.environment }}
