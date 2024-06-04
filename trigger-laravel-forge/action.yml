@@ -1,0 +1,14 @@
+name: "Trigger Laravel Forge"
+description: "Trigger a deployment on Laravel Forge"
+inputs:
+  trigger-url:
+    description: "The URL to trigger the deployment"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: trigger
+      run: curl -X POST $URL
+      shell: bash
+      env:
+        URL: ${{ inputs.trigger-url }}
