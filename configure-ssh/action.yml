@@ -24,15 +24,16 @@ runs:
     - name: Configure SSH
       run: |
         mkdir -p ~/.ssh/
-        echo "$SSH_KEY" > ~/.ssh/"$ENVIRONMENT".key
-        chmod 600 ~/.ssh/"$ENVIRONMENT".key
+        echo "$SSH_KEY" > ~/.ssh/${ENVIRONMENT}.key
+        chmod 600 ~/.ssh/${ENVIRONMENT}.key
         cat >>~/.ssh/config <<END
-        Host "$ENVIRONMENT"
-          HostName "$SSH_HOST"
-          User "$SSH_USER"
-          IdentityFile ~/.ssh/"$ENVIRONMENT".key
+        Host $ENVIRONMENT
+          HostName $SSH_HOST
+          User $SSH_USER
+          IdentityFile ~/.ssh/${ENVIRONMENT}.key
           StrictHostKeyChecking no
         END
+        ls ~/.ssh
         cat ~/.ssh/config
       shell: bash
       env:
