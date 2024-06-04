@@ -19,6 +19,7 @@ outputs:
     description: "The environment configured"
     value: ${{ inputs.environment }}
 runs:
+  using: "composite"
   steps:
     - name: Configure SSH
       run: |
