@@ -24,9 +24,10 @@ runs:
     - name: Convert excludes to rsync format
       id: convert-excludes
       run: |
+        echo $INPUT
         EXCLUDES=""
         if [ -n "$INPUT" ]; then
-          EXCLUDES=$(echo $INPUT | sed -n 's/^/--exclude /p' | tr '\n' ' ')
+          EXCLUDES=$(echo $INPUT | sed '/./s/^/--exclude /' | tr '\n' ' ')
         fi
         echo "excludes=$EXCLUDES" >> "$GITHUB_OUTPUT"
       shell: bash
