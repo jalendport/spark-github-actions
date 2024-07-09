@@ -1,4 +1,4 @@
-FROM jalendport/spark-node-action:20
+FROM jalendport/spark-node:20
 
 COPY entrypoint.sh /entrypoint.sh
 

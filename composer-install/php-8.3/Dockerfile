@@ -1,4 +1,4 @@
-FROM jalendport/spark-php-action:8.3
+FROM jalendport/spark-php:8.3-cli
 
 COPY entrypoint.sh /entrypoint.sh
 
