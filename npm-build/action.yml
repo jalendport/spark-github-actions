@@ -1,0 +1,29 @@
+name: "npm Build"
+description: "Runs an npm script in a Spark Node container"
+inputs:
+  node:
+    description: "The Node version to use"
+    required: false
+    default: "22"
+  script:
+    description: "The npm script to run"
+    required: false
+    default: "build"
+runs:
+  using: "composite"
+  steps:
+    - name: npm run
+      run: |
+        docker run --rm \
+          --user "$(id -u):$(id -g)" \
+          --volume "$GITHUB_WORKSPACE":/app \
+          --workdir /app \
+          --env HOME=/tmp \
+          --entrypoint npm \
+          "jalendport/spark-node:$NODE" \
+          run \
+          "$SCRIPT"
+      shell: bash
+      env:
+        NODE: ${{ inputs.node }}
+        SCRIPT: ${{ inputs.script }}
