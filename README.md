@@ -1,4 +1,4 @@
-<h1 align="center">Spark GitHub Actions</h1>
+<h1 align="center">Spark - GitHub Actions</h1>
 
 <p align="center"><em>Reusable GitHub Actions for building and deploying Spark-based projects.</em></p>
 
