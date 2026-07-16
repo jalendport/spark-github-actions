@@ -1,4 +1,4 @@
-name: "npm Build"
+name: "npm Run"
 description: "Runs an npm script in a Spark Node container"
 inputs:
   node:

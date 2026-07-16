@@ -56,15 +56,15 @@ Installs npm dependencies.
     node: "20" # optional, default "22"
 ```
 
-### `npm-build`
+### `npm-run`
 
 Runs an npm script.
 
 ```yaml
-- uses: jalendport/spark-github-actions/npm-build@master
+- uses: jalendport/spark-github-actions/npm-run@master
   with:
-    node: "20" # optional, default "22"
     script: build # optional, default "build"
+    node: "20" # optional, default "22"
 ```
 
 ### `configure-ssh`
@@ -126,8 +126,8 @@ The version-per-directory actions are superseded by the version inputs above, an
 | `composer-install/php-8.3` | `composer-install` + `php: "8.3"` |
 | `npm-install/node-20`      | `npm-install` + `node: "20"`      |
 | `npm-install/node-22`      | `npm-install` + `node: "22"`      |
-| `npm-build/node-20`        | `npm-build` + `node: "20"`        |
-| `npm-build/node-22`        | `npm-build` + `node: "22"`        |
+| `npm-build/node-20`        | `npm-run` + `node: "20"`          |
+| `npm-build/node-22`        | `npm-run` + `node: "22"`          |
 
 Pass the version explicitly when migrating. The defaults are `php: "8.2"` and `node: "22"`, so omitting the input moves a pipeline that was pinned to a different version.
 
