@@ -3,8 +3,7 @@ description: "Runs a Composer script in a Spark PHP container"
 inputs:
   php:
     description: "The PHP version to use"
-    required: false
-    default: "8.2"
+    required: true
   script:
     description: "The Composer script to run"
     required: true
@@ -13,6 +12,10 @@ runs:
   steps:
     - name: Composer run-script
       run: |
+        if [ -z "$PHP" ]; then
+          echo "::error::The 'php' input is required, for example 8.3"
+          exit 1
+        fi
         docker run --rm \
           --user "$(id -u):$(id -g)" \
           --volume "$GITHUB_WORKSPACE":/app \

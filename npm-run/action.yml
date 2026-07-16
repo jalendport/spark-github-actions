@@ -3,8 +3,7 @@ description: "Runs an npm script in a Spark Node container"
 inputs:
   node:
     description: "The Node version to use"
-    required: false
-    default: "22"
+    required: true
   script:
     description: "The npm script to run"
     required: false
@@ -14,6 +13,10 @@ runs:
   steps:
     - name: npm run
       run: |
+        if [ -z "$NODE" ]; then
+          echo "::error::The 'node' input is required, for example 20"
+          exit 1
+        fi
         docker run --rm \
           --user "$(id -u):$(id -g)" \
           --volume "$GITHUB_WORKSPACE":/app \

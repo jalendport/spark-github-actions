@@ -3,8 +3,7 @@ description: "Installs npm dependencies in a Spark Node container"
 inputs:
   node:
     description: "The Node version to use"
-    required: false
-    default: "22"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -16,6 +15,10 @@ runs:
         restore-keys: npm-${{ inputs.node }}-
     - name: npm install
       run: |
+        if [ -z "$NODE" ]; then
+          echo "::error::The 'node' input is required, for example 20"
+          exit 1
+        fi
         mkdir -p "$NPM_CACHE_HOST"
         docker run --rm \
           --user "$(id -u):$(id -g)" \

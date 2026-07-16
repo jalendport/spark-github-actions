@@ -5,7 +5,7 @@
 ## Features
 
 - **Runs in the Spark images** — every action executes inside the matching [Spark Docker image](https://hub.docker.com/u/jalendport), so CI uses the same PHP and Node builds as everywhere else.
-- **Versions are inputs** — pick PHP or Node per step with `php:` / `node:`. A new runtime needs no change here, only a published image tag.
+- **Versions are explicit inputs** — every step names its own PHP or Node version, so nothing silently moves. A new runtime needs no change here, only a published image tag.
 - **Composite, not Docker** — no per-run image build on the runner, so steps start immediately.
 - **Correct file ownership** — containers run as the runner's own user, so `vendor/` and `node_modules/` never come back root-owned.
 - **Dependency caching built in** — Composer and npm downloads are cached between runs without any extra steps in your workflow.
@@ -20,7 +20,7 @@ Installs Composer dependencies, excluding dev dependencies, for deploy pipelines
 ```yaml
 - uses: jalendport/spark-github-actions/composer-install@master
   with:
-    php: "8.3" # optional, default "8.2"
+    php: "8.3"
 ```
 
 Runs `install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader`.
@@ -32,7 +32,7 @@ Installs Composer dependencies, including dev dependencies, for CI.
 ```yaml
 - uses: jalendport/spark-github-actions/composer-install-dev@master
   with:
-    php: "8.3" # optional, default "8.2"
+    php: "8.3"
 ```
 
 ### `composer-run`
@@ -43,7 +43,7 @@ Runs a Composer script.
 - uses: jalendport/spark-github-actions/composer-run@master
   with:
     script: phpstan
-    php: "8.3" # optional, default "8.2"
+    php: "8.3"
 ```
 
 ### `npm-install`
@@ -53,7 +53,7 @@ Installs npm dependencies.
 ```yaml
 - uses: jalendport/spark-github-actions/npm-install@master
   with:
-    node: "20" # optional, default "22"
+    node: "20"
 ```
 
 ### `npm-run`
@@ -64,7 +64,7 @@ Runs an npm script.
 - uses: jalendport/spark-github-actions/npm-run@master
   with:
     script: build # optional, default "build"
-    node: "20" # optional, default "22"
+    node: "20"
 ```
 
 ### `configure-ssh`
@@ -109,7 +109,7 @@ POSTs to a Laravel Forge deployment trigger URL. A non-2xx response fails the st
 
 ## Supported versions
 
-The `php` and `node` inputs accept any tag published for the Spark images.
+The `php` and `node` inputs are required, and accept any tag published for the Spark images.
 
 | Input  | Available                    |
 | ------ | ---------------------------- |
@@ -129,7 +129,7 @@ The version-per-directory actions are superseded by the version inputs above, an
 | `npm-build/node-20`        | `npm-run` + `node: "20"`          |
 | `npm-build/node-22`        | `npm-run` + `node: "22"`          |
 
-Pass the version explicitly when migrating. The defaults are `php: "8.2"` and `node: "22"`, so omitting the input moves a pipeline that was pinned to a different version.
+The version input is required, so carry each pipeline's pinned version across when migrating.
 
 ## Support
 

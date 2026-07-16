@@ -3,8 +3,7 @@ description: "Installs Composer dependencies, including dev dependencies, in a S
 inputs:
   php:
     description: "The PHP version to use"
-    required: false
-    default: "8.2"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -16,6 +15,10 @@ runs:
         restore-keys: composer-${{ inputs.php }}-
     - name: Composer install
       run: |
+        if [ -z "$PHP" ]; then
+          echo "::error::The 'php' input is required, for example 8.3"
+          exit 1
+        fi
         mkdir -p "$COMPOSER_HOME_HOST"
         docker run --rm \
           --user "$(id -u):$(id -g)" \
