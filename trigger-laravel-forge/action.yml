@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: trigger
-      run: curl -X POST $URL
+      run: curl --fail --silent --show-error -X POST "$URL"
       shell: bash
       env:
         URL: ${{ inputs.trigger-url }}
