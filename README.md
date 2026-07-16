@@ -63,7 +63,7 @@ Runs an npm script.
 ```yaml
 - uses: jalendport/spark-github-actions/npm-run@master
   with:
-    script: build # optional, default "build"
+    script: build
     node: "20"
 ```
 

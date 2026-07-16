@@ -6,8 +6,7 @@ inputs:
     required: true
   script:
     description: "The npm script to run"
-    required: false
-    default: "build"
+    required: true
 runs:
   using: "composite"
   steps:
