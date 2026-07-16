@@ -1,0 +1,29 @@
+name: "Composer Run"
+description: "Runs a Composer script in a Spark PHP container"
+inputs:
+  php:
+    description: "The PHP version to use"
+    required: false
+    default: "8.2"
+  script:
+    description: "The Composer script to run"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Composer run-script
+      run: |
+        docker run --rm \
+          --user "$(id -u):$(id -g)" \
+          --volume "$GITHUB_WORKSPACE":/app \
+          --workdir /app \
+          --env COMPOSER_HOME=/tmp/composer \
+          --entrypoint composer \
+          "jalendport/spark-php:$PHP-cli" \
+          --no-interaction \
+          run-script \
+          "$SCRIPT"
+      shell: bash
+      env:
+        PHP: ${{ inputs.php }}
+        SCRIPT: ${{ inputs.script }}

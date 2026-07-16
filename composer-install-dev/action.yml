@@ -1,0 +1,35 @@
+name: "Composer Install (dev)"
+description: "Installs Composer dependencies, including dev dependencies, in a Spark PHP container"
+inputs:
+  php:
+    description: "The PHP version to use"
+    required: false
+    default: "8.2"
+runs:
+  using: "composite"
+  steps:
+    - name: Cache Composer downloads
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/composer-home/cache
+        key: composer-${{ inputs.php }}-${{ hashFiles('composer.json', 'composer.lock') }}
+        restore-keys: composer-${{ inputs.php }}-
+    - name: Composer install
+      run: |
+        mkdir -p "$COMPOSER_HOME_HOST"
+        docker run --rm \
+          --user "$(id -u):$(id -g)" \
+          --volume "$GITHUB_WORKSPACE":/app \
+          --volume "$COMPOSER_HOME_HOST":/tmp/composer \
+          --workdir /app \
+          --env COMPOSER_HOME=/tmp/composer \
+          --entrypoint composer \
+          "jalendport/spark-php:$PHP-cli" \
+          install \
+          --no-ansi \
+          --no-interaction \
+          --no-progress
+      shell: bash
+      env:
+        PHP: ${{ inputs.php }}
+        COMPOSER_HOME_HOST: ${{ runner.temp }}/composer-home
